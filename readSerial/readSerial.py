@@ -13,7 +13,10 @@ ser.flushInput()
 
 while True:
     try:
-        print(unicode(ser.readline().strip('\n').strip('\r')))
+        ligne = unicode(ser.readline().strip('\n').strip('\r'))
     except:
         print("Keyboard Interrupt")
+
+    if (len(ligne.split(";")) == 10):
+        print(ligne.split(";"))
         break
