@@ -17,6 +17,6 @@ while True:
     except:
         print("Keyboard Interrupt")
 
-    if (len(ligne.split(";")) == 10):
+    if (len(ligne.split(";")) == 13):
         print(ligne.split(";"))
         break
