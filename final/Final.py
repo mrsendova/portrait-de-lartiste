@@ -8,6 +8,7 @@ import smbus
 import serial
 import getArduinoPort
 import algoArt
+#import sched, time
 
 r = 0
 
@@ -100,18 +101,21 @@ def buttonState(): #Retourne l'état de la pin
 
 initiatePin() # beginning of script, enable the GPIO pin.
 
+def clearScreen():
+    lcd_string("Portrait v0.9.5  ",LCD_LINE_1)
+    lcd_string("> Pret",LCD_LINE_2)
+    return True
 
 try:
     lcd_init()
-    lcd_string("Portrait v0.9.5  ",LCD_LINE_1)
-    lcd_string("0x0> Pret",LCD_LINE_2)
+    clearScreen()
 
     while (r == 0):
         if buttonState() == 1:
             print "Bouton appuyé"
-            lcd_string("0x1> Btn appuye",LCD_LINE_2)
+            lcd_string("> Btn appuye",LCD_LINE_2)
             time.sleep(1)
-            lcd_string("0x2>On calcule...",LCD_LINE_2)
+            lcd_string("> On calcule...",LCD_LINE_2)
             time.sleep(1)
 
             ser = serial.Serial(getArduinoPort.getFirstDevice()) #Établir la connection
@@ -162,10 +166,11 @@ try:
                         medium = 1
 
                     print(genre, decoratif, portee, galerie, musee, revue, dimx, dimy, medium, temperature)
-                    print(algoArt.getPrix(genre, decoratif, portee, galerie, musee, revue, dimx, dimy, medium))
+                    lcd_string("Le marche dicte:",LCD_LINE_1)
+                    lcd_string(("%s $"% (algoArt.getPrix(genre, decoratif, portee, galerie, musee, revue, dimx, dimy, medium))),LCD_LINE_2)
+                    time.sleep(15)
+                    clearScreen()
                     break
-
-        lcd_string("0x0> Pret",LCD_LINE_2)
         time.sleep(0.1)
 except Exception as e:
     raise
