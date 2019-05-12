@@ -79,20 +79,32 @@ def lcd_string(message,line):
     lcd_byte(ord(message[i]),LCD_CHR)
 
 
-def initiatePin(): #Initialiser les GPIO
-	gpio.init()
-	pin = port.PG7
+def initiatePin():
+    gpio.init()
+    pin = port.PG7
+    pin2 = port.PG6
 
-	gpio.setcfg(pin, gpio.OUTPUT)
-	gpio.input(pin)
+    gpio.setcfg(pin, gpio.OUTPUT)
+    gpio.input(pin)
 
-	gpio.setcfg(pin, 0)
-	gpio.pullup(pin, 0)
-	gpio.pullup(pin, gpio.PULLDOWN)
-	gpio.pullup(pin, gpio.PULLUP)
+    gpio.setcfg(pin2, gpio.OUTPUT)
+    gpio.input(pin2)
+
+    gpio.setcfg(pin, 0)
+    gpio.pullup(pin, 0)
+    gpio.pullup(pin, gpio.PULLDOWN)
+    gpio.pullup(pin, gpio.PULLUP)
+
+    gpio.setcfg(pin2, 0)
+    gpio.pullup(pin2, 0)
+    gpio.pullup(pin2, gpio.PULLDOWN)
+    gpio.pullup(pin2, gpio.PULLUP)
 
 def buttonState(): #Retourne l'état de la pin
 	return gpio.input(port.PG7)
+
+def sState(): #Retourne l'état de la pin
+	return gpio.input(port.PG6)
 
 initiatePin() # beginning of script, enable the GPIO pin.
 
@@ -106,9 +118,17 @@ try:
         if buttonState() == 1:
             print "Bouton appuyé"
             lcd_string("0x1> Btn appuye",LCD_LINE_2)
-            time.sleep(3)
-            lcd_string("0x0> Pret",LCD_LINE_2)
+            time.sleep(1)
+            lcd_string("0x2>On calcule...",LCD_LINE_2)
+            time.sleep(1)
 
+            if sState() == 1:
+                lcd_string("0x3> Cher.",LCD_LINE_2)
+                time.sleep(2)
+            else:
+                lcd_string("0x3> Pas cher.",LCD_LINE_2)
+                time.sleep(3)
+        lcd_string("0x0> Pret",LCD_LINE_2)
         time.sleep(0.1)
 except Exception as e:
     raise

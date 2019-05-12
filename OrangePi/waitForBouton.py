@@ -9,7 +9,7 @@ r = 0
 
 def initiatePin(): #Initialiser les GPIO
 	gpio.init()
-	pin = port.PG7
+	pin = port.PG6
 
 	gpio.setcfg(pin, gpio.OUTPUT)
 	gpio.input(pin)
@@ -20,7 +20,7 @@ def initiatePin(): #Initialiser les GPIO
 	gpio.pullup(pin, gpio.PULLUP)
 
 def buttonState(): #Retourne l'état de la pin
-	return gpio.input(port.PG7)
+	return gpio.input(port.PG6)
 
 initiatePin() # beginning of script, enable the GPIO pin.
 
