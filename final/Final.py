@@ -8,6 +8,7 @@ import smbus
 import serial
 import getArduinoPort
 import algoArt
+import math
 #import sched, time
 
 r = 0
@@ -131,8 +132,10 @@ try:
 
                     # analog
                     dimx = float(inputArray[10])
-                    dimy = float(inputArray[11])
+                    dimy = 30
                     temperature = float(inputArray[12])
+                    lcd_string("> Temp: %s" % (temperature),LCD_LINE_2)
+                    time.sleep(1.5)
 
                     inputArray = [ int(x) for x in inputArray[:-3] ]
                     #genre
@@ -164,11 +167,15 @@ try:
                         medium = 2
                     elif (inputArray[0] == 0 and inputArray[1] == 0):
                         medium = 1
+                    time.sleep(1)
+                    lcd_string("M%sP%sB%s%s%s%sNB%s" % (medium,portee,decoratif,galerie,musee,revue,genre),LCD_LINE_2)
+                    time.sleep(2)
+
 
                     print(genre, decoratif, portee, galerie, musee, revue, dimx, dimy, medium, temperature)
                     lcd_string("Le marche dicte:",LCD_LINE_1)
                     lcd_string(("%s $"% (algoArt.getPrix(genre, decoratif, portee, galerie, musee, revue, dimx, dimy, medium))),LCD_LINE_2)
-                    time.sleep(15)
+                    time.sleep(12)
                     clearScreen()
                     break
         time.sleep(0.1)
